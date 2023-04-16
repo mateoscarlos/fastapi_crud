@@ -22,10 +22,16 @@ This is a FastAPI-based CRUD application using Python, PostgreSQL and Docker. Th
 
 ### Pull the Docker Container
 
-To run the application you can pull the pre-built Docker container from Docker Hub using the following command:
+To run the application you can pull the pre-built Docker container from Docker Hub using the following commands:
+
+1. Pull the Docker image
 ```
-docker pull mateoscarlos/fastapi-crud
+docker pull mateoscarlos/fastapi_crud
 ```  
+2. Run the Docker container
+```
+docker run -d -p <your_port>:8000 --name <container_name> mateoscarlos/fastapi_crud
+```
 
 You can also clone de repository following these steps: 
 
@@ -36,16 +42,16 @@ git clone https://gitlab.com/mateoscarlos/fastapi_crud.git
 
 2. Change to the project directory:
 ```
-cd fastapi-crud
+cd fastapi_crud
 ```
 
 3. Build the Docker image:
 ```
-docker build -t fastapi-crud .
+docker build -t <image_name> .
 ```
 4. Run the Docker container:
 ```
-docker run -d -p <your_port>:8000 <container_name>
+docker run -d -p <your_port>:8000 --name <container_name> <image_name>
 ```
 
 The application should now be running on `http://localhost:8000`.
