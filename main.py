@@ -1,11 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from model.user_connection import UserConnection
 from schema.user_schema import UserSchema
 
 app = FastAPI()
 conn = UserConnection()
 
-@app.get("/")
+@app.get("/", status_code=HTTP_200_OK)
 async def root():
     items = []
     for data in conn.read_all():
@@ -18,13 +19,7 @@ async def root():
     return items
 
 
-@app.post("/api/insert")
-async def insert(user_data: UserSchema):
-    data = user_data.dict()
-    data.pop("id")
-    conn.write(data)
-
-@app.get("/api/user/{id}")
+@app.get("/api/user/{id}", status_code=HTTP_200_OK)
 async def get_one(id: str):
     dictionary = {}
     data = conn.read(id)
@@ -35,13 +30,26 @@ async def get_one(id: str):
     return dictionary
 
 
-@app.put("/api/update/{id}")
+@app.post("/api/insert", status_code=HTTP_201_CREATED)
+async def insert(user_data: UserSchema):
+    data = user_data.dict()
+    data.pop("id")
+    conn.write(data)
+
+    return Response(status_code=HTTP_201_CREATED)
+
+
+@app.put("/api/update/{id}", status_code=HTTP_204_NO_CONTENT)
 async def update(user_data: UserSchema, id):
     data = user_data.dict()
     data["id"] = id
     conn.update(data)
 
+    return Response(status_code=HTTP_204_NO_CONTENT)
 
-@app.delete("/api/delete/{id}")
+
+@app.delete("/api/delete/{id}", status_code=HTTP_204_NO_CONTENT)
 async def delete(id: str):
     conn.delete(id)
+
+    return Response(status_code=HTTP_204_NO_CONTENT)
