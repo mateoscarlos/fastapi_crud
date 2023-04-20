@@ -17,6 +17,13 @@ async def root():
 
     return items
 
+
+@app.post("/api/insert")
+async def insert(user_data: UserSchema):
+    data = user_data.dict()
+    data.pop("id")
+    conn.write(data)
+
 @app.get("/api/user/{id}")
 async def get_one(id: str):
     dictionary = {}
@@ -27,8 +34,14 @@ async def get_one(id: str):
 
     return dictionary
 
-@app.post("/api/insert")
-async def insert(user_data: UserSchema):
+
+@app.put("/api/update/{id}")
+async def update(user_data: UserSchema, id):
     data = user_data.dict()
-    data.pop("id")
-    conn.write(data)
+    data["id"] = id
+    conn.update(data)
+
+
+@app.delete("/api/delete/{id}")
+async def delete(id: str):
+    conn.delete(id)

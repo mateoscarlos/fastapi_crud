@@ -11,12 +11,6 @@ class UserConnection():
             print(err)
             self.conn.rollback()
 
-    def read_all(self):
-        with self.conn.cursor() as cur:
-            cur.execute("""
-                SELECT * FROM "user"
-            """)
-            return cur.fetchall()
 
     def write(self, data):
         with self.conn.cursor() as cur:
@@ -24,6 +18,44 @@ class UserConnection():
                 INSERT INTO "user"(name, phone)
                 VALUES(%(name)s, %(phone)s)
             """, data)
+
+        self.conn.commit()
+
+
+    def read_all(self):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                SELECT * FROM "user"
+            """)
+
+            return cur.fetchall()
+        
+
+    def read(self, id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                SELECT * FROM "user" WHERE id = %s
+            """, (id,))
+            
+            return cur.fetchone()
+
+
+    def update(self, data):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                UPDATE "user" 
+                SET name = %(name)s, phone = %(phone)s
+                WHERE id = %(id)s
+            """, data)
+
+        self.conn.commit()
+
+
+    def delete(self, id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "user" WHERE id = %s
+            """, (id,))
 
         self.conn.commit()
 
