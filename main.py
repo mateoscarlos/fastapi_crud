@@ -7,9 +7,7 @@ conn = UserConnection()
 
 @app.get("/")
 async def root():
-    conn
-    return {"message": "Hello World"}
-
+    return conn.read_all()
 
 @app.post("/api/insert")
 async def insert(user_data: UserSchema):

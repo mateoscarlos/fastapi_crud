@@ -9,8 +9,14 @@ class UserConnection():
             self.conn = psycopg2.connect("dbname=database user=admin password=1234 host=db port=5432")
         except psycopg2.OperationalError as err:
             print(err)
-            self.conn.close()
+            self.conn.rollback()
 
+    def read_all(self):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                SELECT * FROM "user"
+            """)
+            return cur.fetchall()
 
     def write(self, data):
         with self.conn.cursor() as cur:
