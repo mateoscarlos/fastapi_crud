@@ -1,7 +1,5 @@
 # FastAPI CRUD Project
 
-**Note:** This project is still under development and not yet complete.
-
 ## Overview
 
 This is a FastAPI-based CRUD application using Python, PostgreSQL and Docker. The aim of the project is to provide a simple and efficient way to create, read, update, and delete records.
@@ -22,16 +20,10 @@ This is a FastAPI-based CRUD application using Python, PostgreSQL and Docker. Th
 
 ### Pull the Docker Container
 
-To run the application you can pull the pre-built Docker container from Docker Hub using the following commands:
-
 1. Pull the Docker image
 ```
 docker pull mateoscarlos/fastapi_crud
 ```  
-2. Run the Docker container
-```
-docker run -d -p <your_port>:8000 --name <container_name> mateoscarlos/fastapi_crud
-```
 
 You can also clone de repository following these steps: 
 
@@ -51,7 +43,7 @@ docker build -t <image_name> .
 ```
 4. Run the Docker container:
 ```
-docker run -d -p <your_port>:8000 --name <container_name> <image_name>
+docker run -d -p <host_port>:8000 --name <container_name> <image_name>
 ```
 
 The application should now be running on `http://localhost:8000`.
